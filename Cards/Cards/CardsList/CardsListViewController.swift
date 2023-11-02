@@ -13,7 +13,6 @@ final class CardsListViewController: UIViewController {
     
     private var viewModel: CardsList!
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
     }
