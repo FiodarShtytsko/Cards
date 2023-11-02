@@ -8,14 +8,14 @@
 import Foundation
 
 protocol CardsList {
-    var item: [CardViewModel] { get set }
+    var items: [CardViewModel] { get set }
 }
 
 final class CardsListViewModel: CardsList {
     
-    var item: [CardViewModel]
+    var items: [CardViewModel]
     
-    init(item: [CardViewModel]) {
-        self.item = item
+    init(items: [CardViewModel]) {
+        self.items = items
     }
 }

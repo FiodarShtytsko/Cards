@@ -20,4 +20,8 @@ struct CardCollectionViewModel: CardViewModel {
 
 final class CardCollectionViewCell: UICollectionViewCell {
     
+    
+    func configure(_ viewModel: CardViewModel) {
+    
+    }
 }
