@@ -30,8 +30,5 @@ final class CardsListViewModel: CardsList {
 
 extension CardsListViewModel {
     func load() {
-        for i in 0..<6 {
-            items.append(CardCollectionViewModel(name: "Name: \(i)", image: .actions))
-        }
     }
 }
