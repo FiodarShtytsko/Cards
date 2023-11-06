@@ -30,5 +30,6 @@ final class CardsListViewModel: CardsList {
 
 extension CardsListViewModel {
     func load() {
+
     }
 }

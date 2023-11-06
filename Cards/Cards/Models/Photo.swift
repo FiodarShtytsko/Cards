@@ -9,4 +9,17 @@ import Foundation
 
 struct Photo: Decodable {
     let url: URL
+    let priority: Int
+    
+    
+    enum CodingKeys: String, CodingKey {
+        case url = "image_url"
+        case priority
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.url = try container.decode(URL.self, forKey: .url)
+        self.priority = try container.decode(Int.self, forKey: .priority)
+    }
 }
