@@ -1,13 +1,13 @@
 //
-//  Photo.swift
+//  CardFBModel.swift
 //  Cards
 //
-//  Created by Fiodar Shtytsko on 03/11/2023.
+//  Created by Fiodar Shtytsko on 06/11/2023.
 //
 
 import Foundation
 
-struct Photo: Decodable {
+struct CardFBModel: Decodable {
     let url: URL
     let priority: Int
     

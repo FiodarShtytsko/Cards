@@ -23,13 +23,31 @@ final class CardsListViewModel: CardsList {
     
     var updateUI: (() -> Void)?
     
+    private let storage: CardMetadataFetching
+    
     init(items: [CardViewModel]) {
         self.items = items
+        self.storage = StorageService(firebaseService: FirebaseService(),
+                                      imageDownloaderService: ImageService())
     }
 }
 
 extension CardsListViewModel {
     func load() {
-
+        
+        
+        Task {
+            do {
+                storage
+                let cards = try await self.storage.fetchCards()
+                await MainActor.run {
+                    self.items = cards.map { CardCollectionViewModel(image: $0.images, name: "Priority: \($0.priority)")}
+                }
+            } catch {
+                await MainActor.run {
+                    print("Error loading images: \(error)")
+                }
+            }
+        }
     }
 }

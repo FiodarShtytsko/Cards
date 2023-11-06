@@ -7,24 +7,11 @@
 
 import UIKit
 
-enum ImageServiceError: LocalizedError {
-    case imageDecodingError
-    case networkError
-    case unknownError
-    
-    var errorDescription: String? {
-        switch self {
-        case .imageDecodingError:
-            return "Failed to decode the image."
-        case .networkError:
-            return "Failed to download the image or retrieve data."
-        case .unknownError:
-            return "An unknown error occurred."
-        }
-    }
+protocol ImageApi {
+    func downloadImages(from urls: [URL]) async throws -> [UIImage]
 }
 
-final class ImageDownloaderService {
+final class ImageService: ImageApi {
     
     func downloadImages(from urls: [URL]) async throws -> [UIImage] {
         return try await withThrowingTaskGroup(of: UIImage.self) { group in
