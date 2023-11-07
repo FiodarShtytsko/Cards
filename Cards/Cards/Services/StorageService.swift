@@ -8,13 +8,24 @@
 import UIKit
 
 protocol CardMetadataFetching {
-    func fetchCards() async throws -> [Card]
+    func loadCard()
+    func listenToUpdates()
+    
+    var cards: [Card] { get }
+    var onCardUpdate: (() -> Void)? { get set }
 }
 
 final class StorageService: CardMetadataFetching {
     private let firebaseService: FirebaseFetcher
     private let imageDownloaderService: ImageApi
     private let limit: Int
+    var cards: [Card] = [] {
+        didSet {
+            self.onCardUpdate?()
+        }
+    }
+    
+    var onCardUpdate: (() -> Void)?
 
     init(firebaseService: FirebaseFetcher,
          imageDownloaderService: ImageApi,
@@ -23,12 +34,31 @@ final class StorageService: CardMetadataFetching {
         self.imageDownloaderService = imageDownloaderService
         self.limit = limit
     }
+    
+    func loadCard() {
+        Task {
+            let newCards = try await fetchCards()
+            await MainActor.run {
+                cards = newCards
+            }
+        }
+    }
+    
+    func listenToUpdates() {
+        Task {
+            for key in FirebaseKey.allCases {
+                for await _ in firebaseService.processConfigUpdates(forKey: key) {
+                    loadCard()
+                }
+            }
+        }
+    }
 
-    func fetchCards() async throws -> [Card] {
+    private func fetchCards() async throws -> [Card] {
         let cardModels = try await fetchAllCardModels()
         let sortedCardModels = sort(cardModels: cardModels, by: { $0.priority })
         let limitedCardModels = Array(sortedCardModels.prefix(limit))
-        return try await downloadImages(for: limitedCardModels)
+        return try await downloadCards(for: limitedCardModels)
     }
 
     private func fetchAllCardModels() async throws -> [CardFBModel] {
@@ -41,22 +71,19 @@ final class StorageService: CardMetadataFetching {
         cardModels.sorted { criteria($0) < criteria($1) }
     }
 
-    private func downloadImages(for cardModels: [CardFBModel]) async throws -> [Card] {
+    private func downloadCards(for cardModels: [CardFBModel]) async throws -> [Card] {
+        print(cardModels)
         let urls = cardModels.map { $0.url }
+        print(urls)
         let downloadedImages = try await imageDownloaderService.downloadImages(from: urls)
-        return zip(cardModels, downloadedImages).map { Card(images: $1, priority: $0.priority) }
+        print(downloadedImages)
+        return zip(cardModels, downloadedImages).map { Card(id: $0.id,
+                                                            images: $1,
+                                                            priority: $0.priority,
+                                                            name: $0.name) }
     }
 
     private func fetchCard(forKey key: FirebaseKey) async throws -> CardFBModel {
-        try await withCheckedThrowingContinuation { continuation in
-            firebaseService.fetchCard(key) { result in
-                switch result {
-                case .success(let cardModel):
-                    continuation.resume(returning: cardModel)
-                case .failure(let error):
-                    continuation.resume(throwing: error)
-                }
-            }
-        }
+        return try await firebaseService.fetchCard(key)
     }
 }
