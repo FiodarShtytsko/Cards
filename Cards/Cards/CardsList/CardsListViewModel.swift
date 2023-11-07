@@ -23,7 +23,7 @@ final class CardsListViewModel: CardsList {
     
     var updateUI: (() -> Void)?
     
-    private let storage: CardMetadataFetching
+    private var storage: CardMetadataFetching
     
     init(items: [CardViewModel]) {
         self.items = items
@@ -35,19 +35,11 @@ final class CardsListViewModel: CardsList {
 extension CardsListViewModel {
     func load() {
         
-        
-        Task {
-            do {
-                storage
-                let cards = try await self.storage.fetchCards()
-                await MainActor.run {
-                    self.items = cards.map { CardCollectionViewModel(image: $0.images, name: "Priority: \($0.priority)")}
-                }
-            } catch {
-                await MainActor.run {
-                    print("Error loading images: \(error)")
-                }
-            }
+        storage.onCardUpdate = {
+            self.items = self.storage.cards.map { CardCollectionViewModel(image: $0.images, name: $0.name)}
         }
+        
+        storage.listenToUpdates()
+        storage.loadCard()
     }
 }

@@ -8,6 +8,8 @@
 import UIKit
 
 struct Card {
+    let id: Int
     let images: UIImage
     let priority: Int
+    let name: String
 }
