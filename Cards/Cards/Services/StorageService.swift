@@ -70,20 +70,24 @@ final class StorageService: CardMetadataFetching {
     private func sort(cardModels: [CardFBModel], by criteria: (CardFBModel) -> Int) -> [CardFBModel] {
         cardModels.sorted { criteria($0) < criteria($1) }
     }
-
+    
     private func downloadCards(for cardModels: [CardFBModel]) async throws -> [Card] {
-        print(cardModels)
-        let urls = cardModels.map { $0.url }
-        print(urls)
-        let downloadedImages = try await imageDownloaderService.downloadImages(from: urls)
-        print(downloadedImages)
-        return zip(cardModels, downloadedImages).map { Card(id: $0.id,
-                                                            images: $1,
-                                                            priority: $0.priority,
-                                                            name: $0.name) }
-    }
+        let urls = cardModels.map { ($0.id, $0.url) }
+        
+        let downloadedImagesTuples = try await imageDownloaderService.downloadImages(from: urls)
+        
+        let downloadedImages = Dictionary(uniqueKeysWithValues: downloadedImagesTuples)
 
-    private func fetchCard(forKey key: FirebaseKey) async throws -> CardFBModel {
-        return try await firebaseService.fetchCard(key)
+        return cardModels.compactMap { model in
+            guard let image = downloadedImages[model.id] else { return nil }
+            return Card(id: model.id,
+                        image: image,
+                        priority: model.priority,
+                        name: model.name)
+        }
     }
-}
+        
+        private func fetchCard(forKey key: FirebaseKey) async throws -> CardFBModel {
+            return try await firebaseService.fetchCard(key)
+        }
+    }

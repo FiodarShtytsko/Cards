@@ -36,7 +36,7 @@ extension CardsListViewModel {
     func load() {
         
         storage.onCardUpdate = {
-            self.items = self.storage.cards.map { CardCollectionViewModel(image: $0.images, name: $0.name)}
+            self.items = self.storage.cards.map { CardCollectionViewModel(image: $0.image, name: $0.name)}
         }
         
         storage.listenToUpdates()

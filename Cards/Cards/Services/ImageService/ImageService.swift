@@ -8,28 +8,28 @@
 import UIKit
 
 protocol ImageApi {
-    func downloadImages(from urls: [URL]) async throws -> [UIImage]
+    func downloadImages(from urls: [( id: Int, url: URL)]) async throws -> [( id: Int, image: UIImage)]
 }
 
 final class ImageService: ImageApi {
     
-    func downloadImages(from urls: [URL]) async throws -> [UIImage] {
-        return try await withThrowingTaskGroup(of: UIImage.self) { group in
-            for url in urls {
+    func downloadImages(from urls: [( id: Int, url: URL)]) async throws -> [( id: Int, image: UIImage)] {
+        return try await withThrowingTaskGroup(of: (Int, UIImage).self) { group in
+            for (id, url) in urls {
                 group.addTask { [weak self] in
-                    guard let self = self else { return UIImage() }
-                    return try await self.downloadImage(from: url)
+                    guard let self = self else { return (id: 9999, UIImage()) }
+                    return try await self.downloadImage(from: url, with: id)
                 }
             }
-            var images = [UIImage]()
+            var imagesWithID = [( id: Int, image: UIImage)]()
             for try await image in group {
-                images.append(image)
+                imagesWithID.append(image)
             }
-            return images
+            return imagesWithID
         }
     }
     
-    private func downloadImage(from url: URL) async throws -> UIImage {
+    private func downloadImage(from url: URL, with id: Int) async throws -> (id: Int, image: UIImage) {
         let (data, response) = try await URLSession.shared.data(from: url)
         
         try response.validate()
@@ -37,6 +37,6 @@ final class ImageService: ImageApi {
         guard let image = UIImage(data: data) else {
             throw ImageServiceError.imageDecodingError
         }
-        return image
+        return (id, image)
     }
 }

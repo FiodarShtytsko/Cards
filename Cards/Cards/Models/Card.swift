@@ -9,7 +9,7 @@ import UIKit
 
 struct Card {
     let id: Int
-    let images: UIImage
+    let image: UIImage
     let priority: Int
     let name: String
 }
