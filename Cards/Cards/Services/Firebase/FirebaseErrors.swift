@@ -20,7 +20,7 @@ extension FirebaseServiceError: LocalizedError {
         case .nilValueForKey(let key):
             return "Config value for key \(key) is not available."
         case .decodeError(let error):
-            return "Failed to decode Photo from JSON: \(error.localizedDescription)"
+            return "Failed to decode Card from JSON: \(error.localizedDescription)"
         case .remoteConfigFetchError(let error):
             return "RemoteConfig fetch failed: \(error.localizedDescription)"
         case .unknownError:

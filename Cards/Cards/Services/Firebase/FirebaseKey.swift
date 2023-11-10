@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum FirebaseKey: String {
+enum FirebaseKey: String, CaseIterable {
     case card_1 = "Card_1"
     case card_2 = "Card_2"
     case card_3 = "Card_3"

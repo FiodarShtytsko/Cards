@@ -9,13 +9,13 @@ import UIKit
 
 
 protocol CardViewModel {
-    var name: String { get }
     var image: UIImage { get }
+    var name: String { get }
 }
 
 struct CardCollectionViewModel: CardViewModel {
-    var name: String
     var image: UIImage
+    var name: String
 }
 
 final class CardCollectionViewCell: UICollectionViewCell {

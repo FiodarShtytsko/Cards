@@ -18,23 +18,23 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Kbr-FF-IQI">
-                        <rect key="frame" x="0.0" y="0.0" width="181" height="156"/>
+                        <rect key="frame" x="32" y="8" width="117" height="140"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nao-RA-dJU">
-                        <rect key="frame" x="8" y="127.66666666666667" width="165" height="20.333333333333329"/>
+                        <rect key="frame" x="8" y="118.99999999999999" width="165" height="20.333333333333329"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="Kbr-FF-IQI" secondAttribute="trailing" id="5PV-Lc-oDt"/>
-                    <constraint firstItem="Kbr-FF-IQI" firstAttribute="leading" secondItem="ahc-dR-Owb" secondAttribute="leading" id="Cm6-Cc-ZfA"/>
-                    <constraint firstAttribute="bottom" secondItem="Nao-RA-dJU" secondAttribute="bottom" constant="8" id="OXp-8y-DQ8"/>
-                    <constraint firstAttribute="trailing" secondItem="Nao-RA-dJU" secondAttribute="trailing" constant="8" id="Q3C-Ev-QYc"/>
-                    <constraint firstItem="Kbr-FF-IQI" firstAttribute="top" secondItem="ahc-dR-Owb" secondAttribute="top" id="YI3-uv-9oI"/>
-                    <constraint firstItem="Nao-RA-dJU" firstAttribute="leading" secondItem="ahc-dR-Owb" secondAttribute="leading" constant="8" id="Yk4-mU-CKc"/>
-                    <constraint firstAttribute="bottom" secondItem="Kbr-FF-IQI" secondAttribute="bottom" id="eKf-7D-nhl"/>
+                    <constraint firstAttribute="trailing" secondItem="Kbr-FF-IQI" secondAttribute="trailing" constant="32" id="5PV-Lc-oDt"/>
+                    <constraint firstItem="Kbr-FF-IQI" firstAttribute="leading" secondItem="ahc-dR-Owb" secondAttribute="leading" constant="32" id="Cm6-Cc-ZfA"/>
+                    <constraint firstItem="Nao-RA-dJU" firstAttribute="leading" secondItem="ahc-dR-Owb" secondAttribute="leading" constant="8" id="GNf-fG-yD1"/>
+                    <constraint firstAttribute="trailing" secondItem="Nao-RA-dJU" secondAttribute="trailing" constant="8" id="RYF-KO-l3d"/>
+                    <constraint firstItem="Kbr-FF-IQI" firstAttribute="top" secondItem="ahc-dR-Owb" secondAttribute="top" constant="8" id="YI3-uv-9oI"/>
+                    <constraint firstAttribute="bottom" secondItem="Kbr-FF-IQI" secondAttribute="bottom" constant="8" id="eKf-7D-nhl"/>
+                    <constraint firstAttribute="bottom" secondItem="Nao-RA-dJU" secondAttribute="bottom" constant="16.666666666666686" id="ouS-HR-mJp"/>
                 </constraints>
             </collectionViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

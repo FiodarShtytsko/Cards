@@ -23,13 +23,23 @@ final class CardsListViewModel: CardsList {
     
     var updateUI: (() -> Void)?
     
+    private var storage: CardMetadataFetching
+    
     init(items: [CardViewModel]) {
         self.items = items
+        self.storage = StorageService(firebaseService: FirebaseService(),
+                                      imageDownloaderService: ImageService())
     }
 }
 
 extension CardsListViewModel {
     func load() {
-
+        
+        storage.onCardUpdate = {
+            self.items = self.storage.cards.map { CardCollectionViewModel(image: $0.image, name: $0.name)}
+        }
+        
+        storage.listenToUpdates()
+        storage.loadCard()
     }
 }

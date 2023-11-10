@@ -11,6 +11,16 @@ final class CardsListViewController: UIViewController {
     
     @IBOutlet private weak var collectionView: UICollectionView!
     
+    private let emptyStateLabel: UILabel = {
+        let label = UILabel()
+        label.text = "No cards available"
+        label.textColor = .black
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.isHidden = false
+        return label
+    }()
+    
     private var viewModel: CardsList!
 
     override func viewDidLoad() {
@@ -20,9 +30,10 @@ final class CardsListViewController: UIViewController {
         viewModel = CardsListViewModel(items: [])
         
         viewModel.updateUI = { [weak self] in
-            self?.collectionView.reloadData()
+            guard let self else { return }
+            self.collectionView.reloadData()
+            self.emptyStateLabel.isHidden = !self.viewModel.items.isEmpty
         }
-        
         viewModel.load()
     }
     
@@ -32,6 +43,12 @@ final class CardsListViewController: UIViewController {
     
     private func setup() {
         collectionView.register(CardCollectionViewCell.self)
+        
+        view.addSubview(emptyStateLabel)
+           NSLayoutConstraint.activate([
+               emptyStateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+               emptyStateLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+           ])
     }
 }
 
