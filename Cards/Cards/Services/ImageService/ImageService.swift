@@ -14,16 +14,18 @@ protocol ImageApi {
 final class ImageService: ImageApi {
     
     func downloadImages(from urls: [( id: Int, url: URL)]) async throws -> [( id: Int, image: UIImage)] {
-        return try await withThrowingTaskGroup(of: (Int, UIImage).self) { group in
+        return try await withThrowingTaskGroup(of: (Int, UIImage)?.self) { group in
             for (id, url) in urls {
                 group.addTask { [weak self] in
-                    guard let self = self else { return (id: 9999, UIImage()) }
+                    guard let self = self else { return nil }
                     return try await self.downloadImage(from: url, with: id)
                 }
             }
             var imagesWithID = [( id: Int, image: UIImage)]()
             for try await image in group {
-                imagesWithID.append(image)
+                if let image = image {
+                    imagesWithID.append(image)
+                }
             }
             return imagesWithID
         }
