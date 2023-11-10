@@ -1,62 +1,74 @@
 # Cards - iOS App with Firebase Remote Config
 
-This iOS application demonstrates the use of Firebase Remote Config (FRC) to dynamically control and update content displayed in the app. This README provides instructions on how to manipulate the FRC to test different behaviors in the app.
-
 ## Getting Started
 
-These instructions will get you up and running with a copy of the project on your local machine for development and testing purposes.
+This iOS application showcases the integration and dynamic control of content using Firebase Remote Config. Detailed below are instructions for configuring and testing the app's response to changes in Firebase Remote Config.
 
 ### Prerequisites
 
-- Xcode 15.0
-- iOS 15.0
-- Swift Package Manager (SPM) for dependency management
+- **Xcode:** 15.0
+- **iOS:** 15.0
+- **Swift Package Manager (SPM):** Used for managing dependencies.
 
 ### Installation
 
-1. Clone the repository
-2. Open the `.xcodeproj` or `.xcworkspace` file in Xcode. Xcode should automatically resolve and fetch the dependencies using SPM.
+1. **Clone the repository.
+2. **Open the project in Xcode:**
+   Open `.xcodeproj` or `.xcworkspace` file. Dependencies are managed through SPM and should resolve automatically.
 
 ## Configuring Firebase Remote Config
 
-To modify the Firebase Remote Config values, follow these steps:
+The app relies on certain properties defined in Firebase Remote Config. Here’s how to set them up and modify them:
 
-1. **Login to Firebase Console:**
-   - Access the Firebase Console at [Firebase Console](https://console.firebase.google.com/).
-   - Select the project linked to this app.
+### Firebase Properties
 
-2. **Navigate to Remote Config:**
-   - In the Firebase project dashboard, go to `Grow` > `Remote Config`.
+The key properties used by the app include:
 
-3. **Modify Config Values:**
-   - You will see parameters that the app uses. For example, you might have a parameter representing a JSON object like this:
-     ```json
-     {
-       "id": 2,
-       "name": "card_2",
-       "image_url": "https://via.placeholder.com/600/771796",
-       "priority": 2
-     }
-     ```
-   - Click on the parameter to modify its value.
-   - Update the JSON structure as needed, ensuring that it matches the format expected by the app.
-   - Save the changes.
+1. **`id` (Integer):** Unique identifier for each card. 
+   - *Example:* `2`
 
-4. **Publish Changes:**
-   - After making changes to the config values, click `Publish changes` to make these changes effective.
+2. **`name` (String):** A descriptive name for the card.
+   - *Example:* `"card_2"`
+
+3. **`image_url` (String):** URL of the image displayed on the card.
+   - *Example:* `"https://via.placeholder.com/600/771796"`
+   - This URL points to an image resource on the web. Changing this URL in the FRC will change the image displayed in the app.
+
+4. **`priority` (Integer):** Determines the display order of the cards.
+   - *Example:* `2`
+   - Cards with lower priority numbers are displayed first.
+
+### Steps to Modify Config Values
+
+1. **Access Firebase Console:**
+   - Go to [Firebase Console](https://console.firebase.google.com/).
+   - Choose the associated project.
+
+2. **Edit Remote Config:**
+   - Open Remote Config
+   - On the left-hand side panel, look for the "Remote Config" option. It might be under a section like "Engage" or directly accessible on the panel.
+   - Click on "Remote Config" to manage the parameters for your app.
+
+3. **Publish Changes:**
+   - Save and publish your changes.
+   - It might take some time for changes to propagate to all users due to caching.
 
 ## Testing the App
 
-Once you have made changes in the Firebase Remote Config:
+After updating Remote Config:
 
 1. **Run the App:**
-   - Build and run the app in Xcode on an emulator or physical device.
+   - Compile and run the app on an emulator or device.
 
-2. **Observe Changes:**
-   - The app should reflect the changes made in the Firebase Remote Config.
-   - For example, changing the `image_url` in the JSON object in FRC should update the image displayed in the app.
+2. **Verify Changes:**
+   - Check if the app reflects the changes made in Firebase Remote Config.
+   - For instance, updating `image_url` should change the respective image in the app.
 
 ## Troubleshooting
 
-- If changes are not reflecting, ensure the app has a proper internet connection and there are no caching issues.
-- Make sure that the Firebase project is correctly linked to your app.
+- **Changes Not Reflecting:**
+  - Ensure the app has a proper internet connection.
+  - Remember, changes may not be instantaneous.
+
+- **Linking Issues:**
+  - Verify that the Firebase project is correctly linked to your iOS app.
