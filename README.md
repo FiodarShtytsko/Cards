@@ -12,7 +12,7 @@ This iOS application showcases the integration and dynamic control of content us
 
 ### Installation
 
-1. **Clone the repository.
+1. Clone the repository.
 2. **Open the project in Xcode:**
    Open `.xcodeproj` or `.xcworkspace` file. Dependencies are managed through SPM and should resolve automatically.
 
